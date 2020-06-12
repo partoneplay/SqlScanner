@@ -1,7 +1,6 @@
 package oneplay.SqlScanner;
 
 import oneplay.SqlScanner.rules.BaseRule;
-import oneplay.SqlScanner.rules.GBase.GBase001;
 import oneplay.SqlScanner.rules.RuleResult;
 import oneplay.SqlScanner.utils.ParseTreeUtils;
 import oneplay.SqlScanner.utils.RuleInfoUtils;
