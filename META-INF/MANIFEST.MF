@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Class-Path: lib/icu4j-61.1.jar lib/ST4-4.3.jar lib/antlr-runtime-3.5.2
+ .jar lib/fastjson-1.2.31.jar lib/log4j-api-2.12.1.jar lib/slf4j-log4j
+ 12-1.7.7.jar lib/javax.json-1.0.4.jar lib/slf4j-api-1.7.7.jar lib/log
+ 4j-1.2-api-2.12.1.jar lib/antlr4-4.8.jar lib/junit-4.11.jar lib/org.a
+ bego.treelayout.core-1.0.3.jar lib/hamcrest-core-1.3.jar lib/joda-tim
+ e-2.9.9.jar lib/log4j-1.2.17.jar lib/log4j-core-2.12.1.jar lib/antlr4
+ -runtime-4.8.jar
+Main-Class: oneplay.SqlScanner.SqlScanner
+

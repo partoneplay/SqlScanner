@@ -1,0 +1,11 @@
+# noinspection SqlResolveForFile
+# noinspection SqlNoDataSourceInspectionForFile
+
+# 表结构变更导致程序代码维护麻烦
+
+INSERT INTO A SELECT * FROM B;
+INSERT INTO A SELECT X,Y FROM B;
+INSERT INTO A SELECT * FROM B UNION ALL SELECT * FROM C;
+INSERT INTO A SELECT X,Y FROM B UNION ALL SELECT X,Y FROM C;
+INSERT INTO A(X,Y) SELECT X,Y FROM B;
+
