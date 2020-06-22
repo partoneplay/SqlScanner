@@ -3,7 +3,7 @@ package oneplay.SqlScanner.rules.GBase;
 import oneplay.SqlScanner.antlr.GBase.GBaseParser;
 import oneplay.SqlScanner.antlr.GBase.GBaseParserBaseListener;
 import oneplay.SqlScanner.rules.BaseRule;
-import oneplay.SqlScanner.rules.NodeName;
+import oneplay.SqlScanner.antlr.NodeName;
 import oneplay.SqlScanner.rules.RuleResult;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -82,8 +82,8 @@ public class GBase004 extends BaseRule {
 
         @Override
         public void enterInPredicate(GBaseParser.InPredicateContext ctx) {
-            if (ctx.NOT() != null) {
-                RuleResult ruleResult = new RuleResult(ctx.start, ctx.stop);
+            if (ctx.NOT() != null && ctx.selectStatement() != null) {
+                RuleResult ruleResult = new RuleResult(ctx.start, ctx.stop, "'not in (subquery)' isn't allowed here");
                 ruleResultList.add(ruleResult);
                 logger.debug(getIndentString(ruleResult.toString()));
             }

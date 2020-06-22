@@ -3,7 +3,7 @@ package oneplay.SqlScanner.rules.GBase;
 import oneplay.SqlScanner.antlr.GBase.GBaseParser;
 import oneplay.SqlScanner.antlr.GBase.GBaseParserBaseListener;
 import oneplay.SqlScanner.rules.BaseRule;
-import oneplay.SqlScanner.rules.NodeName;
+import oneplay.SqlScanner.antlr.NodeName;
 import oneplay.SqlScanner.rules.RuleResult;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -198,7 +198,7 @@ public class GBase002 extends BaseRule {
             if (sqlStructure.peek() == NodeName.conditionClause) {
                 ParserRuleContext ppCtx = ctx.getParent().getParent();
                 if (ppCtx.getChildCount() > 1) {
-                    RuleResult ruleResult = new RuleResult(ppCtx.start, ppCtx.stop, ppCtx.getText());
+                    RuleResult ruleResult = new RuleResult(ppCtx.start, ppCtx.stop, String.format("Column in expression [%s]", ppCtx.getText()));
                     ruleResultList.add(ruleResult);
                     logger.debug(getIndentString(ruleResult.toString()));
                 }

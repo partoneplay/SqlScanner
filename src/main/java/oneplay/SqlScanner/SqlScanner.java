@@ -2,6 +2,7 @@ package oneplay.SqlScanner;
 
 import oneplay.SqlScanner.rules.BaseRule;
 import oneplay.SqlScanner.rules.RuleResult;
+import oneplay.SqlScanner.utils.FileScanner;
 import oneplay.SqlScanner.utils.ParseTreeUtils;
 import oneplay.SqlScanner.utils.RuleInfoUtils;
 import org.antlr.v4.runtime.RecognitionException;
@@ -11,44 +12,27 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Arrays;
 import java.util.List;
 
-public class SqlScanner {
+public class SqlScanner extends FileScanner {
     private static Logger logger = LogManager.getLogger(SqlScanner.class);
-
-    private String schema;
     private List<BaseRule> baseRuleList;
 
     public SqlScanner(String schema) {
-        this.schema = schema;
+        super(schema);
         baseRuleList = RuleInfoUtils.getRuleInstanceList(schema);
     }
 
-    private void scan(File file) {
-        if (file.isFile()) {
-            scanFile(file);
-        } else if (file.isDirectory()) {
-            File[] files = file.listFiles();
-            if (files != null) {
-                for (File f : files) {
-                    if (f.isFile()) {
-                        scanFile(f);
-                    } else if (f.isDirectory()) {
-                        scan(f);
-                    }
-                }
-            }
-        }
-    }
-
-    private void scanFile(File file) {
+    @Override
+    public void scanFile(File file) {
         try {
             if (file.isFile()) {
                 if (!file.getName().toLowerCase().endsWith(".sql")) {
                     logger.info("Skipping " + file.getAbsoluteFile());
                 } else {
                     logger.info("Scanning " + file.getAbsoluteFile());
-                    ParseTree parseTree = ParseTreeUtils.getParseTree(schema, new FileInputStream(file));
+                    ParseTree parseTree = ParseTreeUtils.getParseTree(getSchema(), new FileInputStream(file));
                     for (BaseRule baseRule : baseRuleList) {
                         List<RuleResult> ruleResultList = baseRule.match(parseTree);
                         if (!ruleResultList.isEmpty()) {
@@ -78,14 +62,7 @@ public class SqlScanner {
         }
         System.out.println("SqlScanner Powered by oneplay.\n");
         SqlScanner sqlScanner = new SqlScanner(args[0]);
-        for (int i = 1; i < args.length; i++) {
-            File file = new File(args[i]);
-            if (file.exists()) {
-                sqlScanner.scan(file);
-            } else {
-                logger.error(file.getAbsoluteFile() + " not exists !");
-            }
-        }
+        sqlScanner.scan(Arrays.copyOfRange(args, 1, args.length));
     }
 
 }

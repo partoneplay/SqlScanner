@@ -3,7 +3,7 @@ package oneplay.SqlScanner.rules.GBase;
 import oneplay.SqlScanner.antlr.GBase.GBaseParser;
 import oneplay.SqlScanner.antlr.GBase.GBaseParserBaseListener;
 import oneplay.SqlScanner.rules.BaseRule;
-import oneplay.SqlScanner.rules.NodeName;
+import oneplay.SqlScanner.antlr.NodeName;
 import oneplay.SqlScanner.rules.RuleResult;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -94,7 +94,7 @@ public class GBase001 extends BaseRule {
                 nodeName = sqlStructure.pop();
             }
             if (containersAggFunc && tableCount > 1) {
-                RuleResult ruleResult = new RuleResult(start, stop);
+                RuleResult ruleResult = new RuleResult(start, stop, "bad aggregate function after join");
                 ruleResultList.add(ruleResult);
                 logger.debug(getIndentString(ruleResult.toString()));
             }

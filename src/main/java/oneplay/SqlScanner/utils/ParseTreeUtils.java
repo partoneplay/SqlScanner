@@ -68,6 +68,7 @@ public class ParseTreeUtils {
      * @throws IOException IO
      */
     public static ParseTree getParseTree(String schema, InputStream inputStream) throws IOException, RecognitionException {
+        assert schema.equals("MySql") || schema.equals("GBase");
         CharStream charStream = CharStreams.fromStream(inputStream);
         CaseChangingCharStream upperCharStream = new CaseChangingCharStream(charStream, true);
         if (schema.equals("MySql")) {
@@ -84,7 +85,7 @@ public class ParseTreeUtils {
             gbaseParser.addErrorListener(new ErrorListener());
             return gbaseParser.root();
         }
-        return null;
+        return ParserRuleContext.EMPTY;
     }
 
 }

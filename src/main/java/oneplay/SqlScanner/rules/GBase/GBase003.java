@@ -3,10 +3,10 @@ package oneplay.SqlScanner.rules.GBase;
 import oneplay.SqlScanner.antlr.GBase.GBaseParser;
 import oneplay.SqlScanner.antlr.GBase.GBaseParserBaseListener;
 import oneplay.SqlScanner.rules.BaseRule;
-import oneplay.SqlScanner.rules.NodeName;
+import oneplay.SqlScanner.antlr.NodeName;
 import oneplay.SqlScanner.rules.RuleResult;
 import oneplay.SqlScanner.utils.ParseTreeUtils;
-import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.logging.log4j.LogManager;
@@ -107,7 +107,7 @@ public class GBase003 extends BaseRule {
                 nodeName = sqlStructure.pop();
             }
             if (tableCount > 1 && ctx.whereExpr == null) { // 多表关联缺少where筛选条件
-                RuleResult ruleResult = new RuleResult(ctx.start, ctx.stop);
+                RuleResult ruleResult = new RuleResult(ctx.start, ctx.stop, "Missing 'where' condition");
                 ruleResultList.add(ruleResult);
                 logger.debug(getIndentString(ruleResult.toString()));
             }
@@ -188,43 +188,43 @@ public class GBase003 extends BaseRule {
         @Override
         public void enterIsExpression(GBaseParser.IsExpressionContext ctx) {
             logger.debug(getIndentString("Found IsExpression"));
-            dealUnRelatePredicate(ctx.start, ctx.stop);
+            dealUnRelatePredicate(ctx);
         }
 
         @Override
         public void enterInPredicate(GBaseParser.InPredicateContext ctx) {
             logger.debug(getIndentString("Found InPredicate"));
-            dealUnRelatePredicate(ctx.start, ctx.stop);
+            dealUnRelatePredicate(ctx);
         }
 
         @Override
         public void enterIsNullPredicate(GBaseParser.IsNullPredicateContext ctx) {
             logger.debug(getIndentString("Found IsNullPredicate"));
-            dealUnRelatePredicate(ctx.start, ctx.stop);
+            dealUnRelatePredicate(ctx);
         }
 
         @Override
         public void enterSubqueryComparasionPredicate(GBaseParser.SubqueryComparasionPredicateContext ctx) {
             logger.debug(getIndentString("Found SubqueryComparasionPredicate"));
-            dealUnRelatePredicate(ctx.start, ctx.stop);
+            dealUnRelatePredicate(ctx);
         }
 
         @Override
         public void enterBetweenPredicate(GBaseParser.BetweenPredicateContext ctx) {
             logger.debug(getIndentString("Found BetweenPredicate"));
-            dealUnRelatePredicate(ctx.start, ctx.stop);
+            dealUnRelatePredicate(ctx);
         }
 
         @Override
         public void enterSoundsLikePredicate(GBaseParser.SoundsLikePredicateContext ctx) {
             logger.debug(getIndentString("Found SoundsLikePredicate"));
-            dealUnRelatePredicate(ctx.start, ctx.stop);
+            dealUnRelatePredicate(ctx);
         }
 
         @Override
         public void enterLikePredicate(GBaseParser.LikePredicateContext ctx) {
             logger.debug(getIndentString("Found LikePredicate"));
-            dealUnRelatePredicate(ctx.start, ctx.stop);
+            dealUnRelatePredicate(ctx);
         }
 
         @Override
@@ -233,7 +233,7 @@ public class GBase003 extends BaseRule {
             if (isColumnPredicate(ctx.left) && isColumnPredicate(ctx.right)) {
                 logger.debug(getIndentString("Join Condition"));
             } else {
-                dealUnRelatePredicate(ctx.start, ctx.stop);
+                dealUnRelatePredicate(ctx);
             }
         }
 
@@ -241,8 +241,8 @@ public class GBase003 extends BaseRule {
             return ParseTreeUtils.getDescendantClassSet(ctx).contains(GBaseParser.FullColumnNameContext.class.getSimpleName());
         }
 
-        private void dealUnRelatePredicate(Token start, Token stop) {
-            RuleResult ruleResult = new RuleResult(start, stop);
+        private void dealUnRelatePredicate(ParserRuleContext prc) {
+            RuleResult ruleResult = new RuleResult(prc.start, prc.stop, String.format("It's not 'join' condition [%s]", prc.getText()));
             ruleResultList.add(ruleResult);
             logger.debug(getIndentString(ruleResult.toString()));
         }
