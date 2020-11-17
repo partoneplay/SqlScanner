@@ -41,7 +41,8 @@ public class CaseChangingCharStream implements CharStream {
     @Override
     public int LA(int i) {
         int c = stream.LA(i);
-        if (c <= 0) {
+        if (c <= 0 || c >= 256) {
+            // 防止非法转换
             return c;
         }
         if (c == '\t') {

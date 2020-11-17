@@ -2,8 +2,8 @@ package oneplay.SqlScanner.rules.GBase;
 
 import oneplay.SqlScanner.antlr.GBase.GBaseParser;
 import oneplay.SqlScanner.antlr.GBase.GBaseParserBaseListener;
-import oneplay.SqlScanner.rules.BaseRule;
 import oneplay.SqlScanner.antlr.NodeName;
+import oneplay.SqlScanner.rules.BaseRule;
 import oneplay.SqlScanner.rules.RuleResult;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -38,16 +38,6 @@ public class GBase001 extends BaseRule {
 
         List<RuleResult> getRuleResultList() {
             return ruleResultList;
-        }
-
-        @Override
-        public void enterDmlStatement(GBaseParser.DmlStatementContext ctx) {
-            logger.debug(getIndentString("DmlStatement begin ..."));
-        }
-
-        @Override
-        public void exitDmlStatement(GBaseParser.DmlStatementContext ctx) {
-            logger.debug(getIndentString("DmlStatement end\n"));
         }
 
         @Override
@@ -94,9 +84,9 @@ public class GBase001 extends BaseRule {
                 nodeName = sqlStructure.pop();
             }
             if (containersAggFunc && tableCount > 1) {
-                RuleResult ruleResult = new RuleResult(start, stop, "bad aggregate function after join");
+                RuleResult ruleResult = new RuleResult(start, stop, "在多表关联后进行聚合计算/Bad aggregate function after join");
                 ruleResultList.add(ruleResult);
-                logger.debug(getIndentString(ruleResult.toString()));
+                logger.debug(ruleResult.toString());
             }
 
             unindent();

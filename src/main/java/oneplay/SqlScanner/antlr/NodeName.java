@@ -7,7 +7,7 @@ public enum NodeName {
     querySpecification, // 一个查询或者子查询
     aggregateWindowedFunction, // 聚合函数
     tableSourceItem, // 源表
-    conditionClause, // from语句
+    filterClause, // 筛选条件
     expressionAtomPredicate, // 计算表达式元素
     joinPart // join子句
 }

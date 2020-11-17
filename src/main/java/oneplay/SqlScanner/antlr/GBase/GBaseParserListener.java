@@ -668,6 +668,18 @@ public interface GBaseParserListener extends ParseTreeListener {
 	 */
 	void exitSerialDefaultColumnConstraint(GBaseParser.SerialDefaultColumnConstraintContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code checkColumnConstraint}
+	 * labeled alternative in {@link GBaseParser#columnConstraint}.
+	 * @param ctx the parse tree
+	 */
+	void enterCheckColumnConstraint(GBaseParser.CheckColumnConstraintContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code checkColumnConstraint}
+	 * labeled alternative in {@link GBaseParser#columnConstraint}.
+	 * @param ctx the parse tree
+	 */
+	void exitCheckColumnConstraint(GBaseParser.CheckColumnConstraintContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code primaryKeyTableConstraint}
 	 * labeled alternative in {@link GBaseParser#tableConstraint}.
 	 * @param ctx the parse tree
@@ -1665,6 +1677,18 @@ public interface GBaseParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAlterByRenameIndex(GBaseParser.AlterByRenameIndexContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code alterByAlterIndexVisibility}
+	 * labeled alternative in {@link GBaseParser#alterSpecification}.
+	 * @param ctx the parse tree
+	 */
+	void enterAlterByAlterIndexVisibility(GBaseParser.AlterByAlterIndexVisibilityContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code alterByAlterIndexVisibility}
+	 * labeled alternative in {@link GBaseParser#alterSpecification}.
+	 * @param ctx the parse tree
+	 */
+	void exitAlterByAlterIndexVisibility(GBaseParser.AlterByAlterIndexVisibilityContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code alterByDropIndex}
 	 * labeled alternative in {@link GBaseParser#alterSpecification}.
@@ -5044,6 +5068,30 @@ public interface GBaseParserListener extends ParseTreeListener {
 	 */
 	void exitSpatialDataType(GBaseParser.SpatialDataTypeContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code longVarcharDataType}
+	 * labeled alternative in {@link GBaseParser#dataType}.
+	 * @param ctx the parse tree
+	 */
+	void enterLongVarcharDataType(GBaseParser.LongVarcharDataTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code longVarcharDataType}
+	 * labeled alternative in {@link GBaseParser#dataType}.
+	 * @param ctx the parse tree
+	 */
+	void exitLongVarcharDataType(GBaseParser.LongVarcharDataTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code longVarbinaryDataType}
+	 * labeled alternative in {@link GBaseParser#dataType}.
+	 * @param ctx the parse tree
+	 */
+	void enterLongVarbinaryDataType(GBaseParser.LongVarbinaryDataTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code longVarbinaryDataType}
+	 * labeled alternative in {@link GBaseParser#dataType}.
+	 * @param ctx the parse tree
+	 */
+	void exitLongVarbinaryDataType(GBaseParser.LongVarbinaryDataTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link GBaseParser#collectionOptions}.
 	 * @param ctx the parse tree
 	 */
@@ -5604,6 +5652,18 @@ public interface GBaseParserListener extends ParseTreeListener {
 	 */
 	void exitExpressionAtomPredicate(GBaseParser.ExpressionAtomPredicateContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code jsonMemberOfPredicate}
+	 * labeled alternative in {@link GBaseParser#predicate}.
+	 * @param ctx the parse tree
+	 */
+	void enterJsonMemberOfPredicate(GBaseParser.JsonMemberOfPredicateContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code jsonMemberOfPredicate}
+	 * labeled alternative in {@link GBaseParser#predicate}.
+	 * @param ctx the parse tree
+	 */
+	void exitJsonMemberOfPredicate(GBaseParser.JsonMemberOfPredicateContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code inPredicate}
 	 * labeled alternative in {@link GBaseParser#predicate}.
 	 * @param ctx the parse tree
@@ -5784,6 +5844,18 @@ public interface GBaseParserListener extends ParseTreeListener {
 	 */
 	void exitIntervalExpressionAtom(GBaseParser.IntervalExpressionAtomContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code jsonExpressionAtom}
+	 * labeled alternative in {@link GBaseParser#expressionAtom}.
+	 * @param ctx the parse tree
+	 */
+	void enterJsonExpressionAtom(GBaseParser.JsonExpressionAtomContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code jsonExpressionAtom}
+	 * labeled alternative in {@link GBaseParser#expressionAtom}.
+	 * @param ctx the parse tree
+	 */
+	void exitJsonExpressionAtom(GBaseParser.JsonExpressionAtomContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code existsExpessionAtom}
 	 * labeled alternative in {@link GBaseParser#expressionAtom}.
 	 * @param ctx the parse tree
@@ -5917,6 +5989,16 @@ public interface GBaseParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMathOperator(GBaseParser.MathOperatorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link GBaseParser#jsonOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterJsonOperator(GBaseParser.JsonOperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GBaseParser#jsonOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitJsonOperator(GBaseParser.JsonOperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link GBaseParser#stringOperator}.
 	 * @param ctx the parse tree

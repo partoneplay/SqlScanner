@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -68,16 +69,18 @@ public class ParseTreeUtils {
      * @throws IOException IO
      */
     public static ParseTree getParseTree(String schema, InputStream inputStream) throws IOException, RecognitionException {
-        assert schema.equals("MySql") || schema.equals("GBase");
         CharStream charStream = CharStreams.fromStream(inputStream);
         CaseChangingCharStream upperCharStream = new CaseChangingCharStream(charStream, true);
-        if (schema.equals("MySql")) {
-            MySqlLexer mySqlLexer = new MySqlLexer(upperCharStream);
-            CommonTokenStream commonTokenStream = new CommonTokenStream(mySqlLexer);
-            MySqlParser mySqlParser = new MySqlParser(commonTokenStream);
-            return mySqlParser.root();
-        }
-        if (schema.equals("GBase")) {
+//        if ("MySql".equals(schema)) {
+//            MySqlLexer mySqlLexer = new MySqlLexer(upperCharStream);
+//            CommonTokenStream commonTokenStream = new CommonTokenStream(mySqlLexer);
+//            MySqlParser mySqlParser = new MySqlParser(commonTokenStream);
+//            mySqlParser.removeErrorListeners();
+//            mySqlParser.addErrorListener(new ErrorListener());
+//            return mySqlParser.root();
+//        }
+        // MySQL 暂时共用 GBase 的规则
+        if ("MySql".equals(schema) || "GBase".equals(schema)) {
             GBaseLexer GBaseLexer = new GBaseLexer(upperCharStream);
             CommonTokenStream commonTokenStream = new CommonTokenStream(GBaseLexer);
             GBaseParser gbaseParser = new GBaseParser(commonTokenStream);
@@ -87,5 +90,7 @@ public class ParseTreeUtils {
         }
         return ParserRuleContext.EMPTY;
     }
+
+
 
 }

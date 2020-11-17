@@ -1,5 +1,6 @@
 package oneplay.SqlScanner.utils;
 
+import oneplay.SqlScanner.config.ResourceConfig;
 import oneplay.SqlScanner.rules.BaseRule;
 import oneplay.SqlScanner.rules.RuleInfo;
 import org.apache.logging.log4j.LogManager;
@@ -27,21 +28,24 @@ public class RuleInfoUtils {
 
     /**
      * 获取指定规则的描述性说明
+     *
      * @param schema 配置文件名
-     * @param id 规则id
+     * @param id     规则id
      * @return RuleInfo
      */
     public static RuleInfo getRuleInfo(String schema, String id) {
         try {
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document document = documentBuilder.parse(RuleInfoUtils.class.getResourceAsStream("/" + schema + ".xml"));
+            Document document = documentBuilder.parse(ResourceConfig.getInputStream(schema + ".xml"));
             XPath xPath = XPathFactory.newInstance().newXPath();
             String expression = String.format("/Rules/Rule[@id='%s']", id);
             Element element = (Element) xPath.compile(expression).evaluate(document, XPathConstants.NODE);
             return element == null ? null : new RuleInfo(id,
-                    element.getElementsByTagName("Summary").item(0).getTextContent(),
-                    element.getElementsByTagName("Content").item(0).getTextContent(),
-                    element.getElementsByTagName("Example").item(0).getTextContent()
+                    element.getElementsByTagName("English").item(0).getTextContent(),
+                    element.getElementsByTagName("Chinese").item(0).getTextContent(),
+                    element.getElementsByTagName("Level").item(0).getTextContent(),
+                    element.getElementsByTagName("Explain").item(0).getTextContent(),
+                    element.getElementsByTagName("Recommendations").item(0).getTextContent()
             );
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -51,6 +55,7 @@ public class RuleInfoUtils {
 
     /**
      * 读取指定规则配置文件中的规则，并实例化规则
+     *
      * @param schema 配置文件名
      * @return 全部规则实例
      */
@@ -58,7 +63,7 @@ public class RuleInfoUtils {
         List<BaseRule> baseRuleList = new ArrayList<>();
         try {
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document document = documentBuilder.parse(RuleInfoUtils.class.getResourceAsStream("/" + schema + ".xml"));
+            Document document = documentBuilder.parse(ResourceConfig.getInputStream(schema + ".xml"));
             NodeList nodeList = document.getElementsByTagName("Rule");
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);

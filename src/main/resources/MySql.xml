@@ -1,127 +1,199 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Rules>
     <Rule id="MySql.001">
-        <Summary>先聚合再关联</Summary>
-        <Content>避免在关联查询中使用聚合函数，应先进行聚合操作减少中间计算结果后再进行关联操作</Content>
-        <Example>
+        <English>Always Aggregation before Join</English>
+        <Chinese>多表关联聚合时优先聚合计算</Chinese>
+        <Level>Critical</Level> <!--  Critical High Medium Low -->
+        <Explain>
+避免在关联查询中使用聚合函数，应先进行聚合减少中间计算结果后再进行关联。
+
+示例：以下代码关联维表统计各业务类型业务量。
+
+```sql
 SELECT
-    B.BIZ_TYP_NM,
-    COUNT(1),
-    SUM(STL_AMT)
-FROM F_EVT_FINA_INTG AS A
-INNER JOIN M_CM_DIM_BIZ_TYP AS B
+  B.BIZ_TYP_NM,
+  COUNT(1),
+  SUM(STL_AMT)
+FROM F_EVT_FINA_INTG_XXX AS A
+INNER JOIN M_CM_DIM_XXX_BIZ_TYP AS B
 ON (A.MSG_NO = B.MSG_NO AND A.BIZ_TYP = B.BIZ_TYP)
 WHERE A.STL_DT BETWEEN 'YYYYMMDD' AND 'YYYYMMDD'
 GROUP BY B.BIZ_TYP_NM;
+```
 
-SELECT
-    B.BIZ_TYP_NM,
-    COUNT(1),
-    SUM(STL_AMT)
-FROM F_EVT_FINA_INTG AS A, M_CM_DIM_BIZ_TYP AS B
-WHERE A.STL_DT BETWEEN 'YYYYMMDD' AND 'YYYYMMDD'
-AND A.MSG_NO = B.MSG_NO AND A.BIZ_TYP = B.BIZ_TYP
-GROUP BY B.BIZ_TYP_NM;
+明细表`F_EVT_FINA_INTG_XXX`满足WHERE条件的每一笔交易都会和维表`M_CM_DIM_XXX_BIZ_TYP`进行关联，浪费大量的计算资源。
+        </Explain>
+        <Recommendations>
+多表关联计算时，应始终坚持最小中间数据集的原则，避免无意义大量的关联计算。复杂SQL应确认其执行计划，保证其执行效率最优。
 
--- 建议修改为
+上述代码示例可等价改写如下：
+
+```sql
 SELECT
-    B.BIZ_TYP_NM,
-    SUM(CNT),
-    SUM(AMT)
+  B.BIZ_TYP_NM,
+  SUM(CNT),
+  SUM(AMT)
 FROM (
-    SELECT
-        MSG_NO,
-        BIZ_TYP,
-        COUNT(1) AS CNT,
-        SUM(STL_AMT) AS AMT
-    FROM F_EVT_FINA_INTG
-    WHERE STL_DT BETWEEN 'YYYYMMDD' AND 'YYYYMMDD'
+  SELECT
+    MSG_NO,
+    BIZ_TYP,
+    COUNT(1) AS CNT,
+    SUM(STL_AMT) AS AMT
+  FROM F_EVT_FINA_INTG_XXX
+  WHERE STL_DT BETWEEN 'YYYYMMDD' AND 'YYYYMMDD'
+  GROUP BY MSG_NO, BIZ_TYP
 ) AS A
-INNER JOIN M_CM_DIM_BIZ_TYP AS B
+INNER JOIN M_CM_DIM_XXX_BIZ_TYP AS B
 ON (A.MSG_NO = B.MSG_NO AND A.BIZ_TYP = B.BIZ_TYP)
 GROUP BY B.BIZ_TYP_NM;
-        </Example>
+```
+        </Recommendations>
     </Rule>
     <Rule id="MySql.002">
-        <Summary>避免在筛选条件中对列使用函数或其他运算符</Summary>
-        <Content>虽然在SQL中使用函数可以简化很多复杂的查询，但使用了函数的查询无法利用表中已经建立的索引，该查询将会是全表扫描，性能较差。通常建议将列名写在比较运算符左侧，将查询过滤条件放在比较运算符右侧。也不建议在查询比较条件两侧书写多余的括号，这会对阅读产生比较大的困扰。</Content>
-        <Example>
-SELECT TO_CHAR(DT, 'YYYYMMDD'), SUM(DT) FROM A WHERE TO_CHAR(TO_DATE(DT, 'YYYYMMDD'), 'YYYY-MM-DD') = '2020-01-01';
+        <English>Avoid Column Computing in Filter</English>
+        <Chinese>避免在筛选条件中对列进行加工转换</Chinese>
+        <Level>Critical</Level> <!--  Critical High Medium Low -->
+        <Explain>
+虽然在SQL中使用函数可以简化很多复杂的查询，但使用了函数的查询无法利用表中已经建立的索引，该查询将会是全表扫描，性能较差。
 
-SELECT * FROM A, B WHERE (DT + 1) = '2020-01-01' AND A.X + 1 = B.X AND TO_CHAR(DT + 1, 'YYYYMMDD') = 2;
+通常建议将列名写在比较运算符左侧，将查询过滤条件放在比较运算符右侧，可将对列的加工转换修改为过滤条件的加工转换。
 
-SELECT * FROM A
-INNER JOIN B ON (A.ID = B.ID AND TO_CHAR(TO_DATE(DT, 'YYYYMMDD'), 'YYYY-MM-DD') = '2020-01-01')
-WHERE 1 = (
-    SELECT X FROM A, B WHERE (DT + 1) = '2020-01-01' AND A.X + 1 = B.X AND TO_CHAR(DT + 1, 'YYYYMMDD') = 2
-);
+示例：以下代码对日期进行过滤。
 
-SELECT
-    CASE
-    WHEN TO_CHAR(TO_DATE(DT, 'YYYYMMDD'), 'YYYY-MM-DD') > 1 THEN 1
-    ELSE 0
-    END
-FROM A
-WHERE DT = TO_CHAR('2020-01-01', 'YYYYMMDD');
-        </Example>
+```sql
+SELECT X FROM A WHERE TO_CHAR(TO_DATE(DT, 'YYYYMMDD'), 'YYYY-MM-DD') = '2020-01-01';
+```
+列`DT`无法使用到索引。
+        </Explain>
+        <Recommendations>
+应始终避免在筛选条件中对列进行加工转换，避免造成不必要的计算开销。
+
+上述示例代码可等价改写为：
+
+```sql
+SELECT X FROM A WHERE DT = TO_CHAR(TO_DATE('2020-01-01', 'YYYY-MM-DD'), 'YYYYMMDD');
+```
+        </Recommendations>
     </Rule>
     <Rule id="MySql.003">
-        <Summary>关联查询缺少筛选条件或join子句存在非关联条件</Summary>
-        <Content>中间数据集将会比预期更多，最坏条件下，全表扫描</Content>
-        <Example>
-SELECT* FROM F_EVT_FINA_INTG AS A
-LEFT JOIN M_CM_DIM_BIZ_TYP AS B ON (
-    A.MSG_NO = B.MSG_NO AND A.BIZ_TYP = B.BIZ_TYP AND A.STL_DT BETWEEN 'YYYYMMDD' AND 'YYYYMMDD'
-);
+        <English>Always Specify Reasonable Condition</English>
+        <Chinese>多表关联始终指定合理筛选条件</Chinese>
+        <Level>Critical</Level> <!--  Critical High Medium Low -->
+        <Explain>
+多表关联查询时，应始终保证最外层存在`WHERE`子句，避免无意识或不小心的全表关联，即使筛选条件不会起到任何作用。
 
-SELECT * FROM F_EVT_FINA_INTG AS A
-LEFT JOIN M_CM_DIM_BIZ_TYP AS B ON (
-    A.MSG_NO = B.MSG_NO AND A.BIZ_TYP = B.BIZ_TYP
-    AND A.STL_DT BETWEEN 'YYYYMMDD' AND 'YYYYMMDD'
-    AND A.STL_DT = TO_CHAR(TO_DATE('YYYYMMDD'), 'YYYYMMDD')
-    AND A.X = 2 AND A.Y > 4.0
-);
+同时应避免在`ON`子句中指定非关联表达式，应将此类常量表达式移到`WHERE`子句中。
 
-SELECT * FROM F_EVT_FINA_INTG AS A
-LEFT JOIN M_CM_DIM_BIZ_TYP AS B ON (
-    A.MSG_NO = B.MSG_NO AND A.BIZ_TYP = B.BIZ_TYP
-)
+一般数据库执行计划都是先进行`WHERE`语句计算，再进行`ON`语句计算。
+
+示例：以下代码进行交易明细查询，并将代码翻译为中文。
+
+```sql
+SELECT
+A.MSG_ID,
+A.MSG_NO,
+A.STL_DT,
+B.BIZ_TYP_NM,
+A.BIZ_CATE,
+A.STL_AMT
+FROM F_EVT_FINA_INTG_XXX AS A
+LEFT JOIN M_CM_DIM_XXX_BIZ_TYP AS B
+ON (
+A.MSG_NO = B.MSG_NO AND A.BIZ_TYP = B.BIZ_TYP
+AND A.STL_DT BETWEEN 'YYYYMMDD' AND 'YYYYMMDD'
+);
+```
+
+明细表`F_EVT_FINA_INTG_XXX`和维表`M_CM_DIM_XXX_BIZ_TYP`将会进行全表关联后再进行筛选，将产生巨大的中间计算结果，浪费巨大的计算资源浪费，且计算效率低下；如果两张表均为大表，后果更为严重，可能导致数据库卡死，无法提供服务。
+        </Explain>
+        <Recommendations>
+多表关联计算时，应始终坚持最小中间数据集的原则，避免无意义大量的关联计算。复杂SQL应确认其执行计划，保证其执行效率最优。
+
+上述代码示例可等价改写如下：
+
+```sql
+SELECT
+A.MSG_ID,
+A.MSG_NO,
+A.STL_DT,
+B.BIZ_TYP_NM,
+A.BIZ_CATE,
+A.STL_AMT
+FROM F_EVT_FINA_INTG_XXX AS A
+LEFT JOIN M_CM_DIM_XXX_BIZ_TYP AS B
+ON (A.MSG_NO = B.MSG_NO AND A.BIZ_TYP = B.BIZ_TYP)
 WHERE A.STL_DT BETWEEN 'YYYYMMDD' AND 'YYYYMMDD';
-        </Example>
+```
+        </Recommendations>
     </Rule>
     <Rule id="MySql.004">
-        <Summary>避免使用not in</Summary>
-        <Content>采用not exits 替代</Content>
-        <Example>
-SELECT *
-FROM F_EVT_FINA_INTG
-WHERE MSG_ID NOT IN (SELECT MSG_ID FROM F_EVT_FINA_INTG_BAD);
+        <English>Avoid Using NOT IN Or Reverse Query</English>
+        <Chinese>避免使用NOT IN或反向查询作为筛选条件</Chinese>
+        <Level>Critical</Level> <!--  Critical High Medium Low -->
+        <Explain>
+`NOT IN`、`!=`、`&lt;&gt;` 操作符（不等于） 操作符是不会用到索引的，对它的处理只会产生全表扫描，考虑用其它相同功能的操作运算代替，如 a &lt;&gt; 0 改为 a &gt; 0 OR a &lt; 0，a &lt;&gt; '' 改为 a &gt; ''，NOT IN 改写为NOT EXISTS。
 
-SELECT *
-FROM F_EVT_FINA_INTG
-WHERE MSG_ID NOT IN (SELECT MSG_ID FROM F_EVT_FINA_INTG_BAD)
+当集合明确且固定，数据量较小情况下，可适当采用`NOT IN`。
 
-UNION
+严禁`NOT IN`和子查询结合使用，`NOT IN`实质为子查询操作，不能性能相对`NOT EXISTS`地下，且可能存在不可控的逻辑错误。
 
-SELECT *
-FROM F_EVT_FINA_INTG
-WHERE MSG_ID NOT IN (SELECT MSG_ID FROM F_EVT_FINA_INTG_BAD)
-;
+示例：
 
-SELECT *
-FROM F_EVT_FINA_INTG AS A
-WHERE NOT EXISTS (SELECT MSG_ID FROM F_EVT_FINA_INTG_BAD WHERE MSG_ID = A.MSG_ID);
-        </Example>
+```sql
+SELECT 0 NOT IN (1, 2);
+-- 结果返回1，为TRUE
+SELECT 0 NOT IN (1, 2, NULL);
+-- 结果返回NULL，为FALSE
+
+SELECT MSG_ID
+FROM F_EVT_FINA_INTG_XXX
+WHERE MSG_ID NOT IN (SELECT MSG_ID FROM F_EVT_FINA_INTG_XXX_BAD);
+```
+        </Explain>
+        <Recommendations>
+对于反向查询，应尽量避免，考虑改写为等价的正向查询，如果难以改写，应明确考虑性能问题，选择性能较高的实现方法。
+
+上述`NOT IN`示例代码可等价修改为：
+
+```sql
+SELECT MSG_ID
+FROM F_EVT_FINA_INTG_XXX AS A
+WHERE NOT EXISTS (SELECT 1 FROM F_EVT_FINA_INTG_XXX_BAD AS B WHERE B.MSG_ID = A.MSG_ID LIMIT 1);
+```
+        </Recommendations>
     </Rule>
     <Rule id="MySql.005">
-        <Summary>在INSERT INTO SELECT结构中明确指定列名</Summary>
-        <Content>当表结构发生变更，如果INSERT请求不明确指定列名，请求的结果可能与预想的不同或执行失败，且代码维护困难</Content>
-        <Example>
-INSERT INTO A SELECT * FROM B;
-INSERT INTO A SELECT X,Y FROM B;
-INSERT INTO A SELECT * FROM B UNION ALL SELECT * FROM C;
-INSERT INTO A SELECT X,Y FROM B UNION ALL SELECT X,Y FROM C;
+        <English>Always Specify the Columns</English>
+        <Chinese>始终明确指定列名</Chinese>
+        <Level>High</Level> <!--  Critical High Medium Low -->
+        <Explain>
+`SELECT`语句必须指定具体字段名称，禁止写成`*`。
+
+`INSERT`语句必须指定具体字段名称，禁止省略。
+
+当表结构发生变更，如果INSERT请求不明确指定列名，请求的结果可能与预想的不同或执行失败，且代码维护困难。
+        </Explain>
+        <Recommendations>
+始终明确指定列名。
+
+```sql
 INSERT INTO A(X,Y) SELECT X,Y FROM B;
-        </Example>
+```
+        </Recommendations>
+    </Rule>
+    <Rule id="MySql.006">
+        <English>Avoid Using || to Concatenating String</English>
+        <Chinese>避免使用||操作符进行字符串连接</Chinese>
+        <Level>High</Level> <!--  Critical High Medium Low -->
+        <Explain>
+`||`操作符在不同数据库行为不一致， 在MySql、DB2数据库为字符串连接操作，等价于`CONCAT`函数，但在MySQL、OceanBase数据库为逻辑运算，等价于`OR`，返回0或1。
+
+为避免不必要的麻烦，以及数据库迁移代码修改遗漏造成隐患，避免使用此种非规范的操作符。
+        </Explain>
+        <Recommendations>
+避免使用此种非规范的操作符。
+
+`||`修改为`CONCAT`函数。
+        </Recommendations>
     </Rule>
 </Rules>

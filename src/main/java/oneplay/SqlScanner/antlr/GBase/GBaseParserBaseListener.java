@@ -748,6 +748,18 @@ public class GBaseParserBaseListener implements GBaseParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCheckColumnConstraint(GBaseParser.CheckColumnConstraintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCheckColumnConstraint(GBaseParser.CheckColumnConstraintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPrimaryKeyTableConstraint(GBaseParser.PrimaryKeyTableConstraintContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1775,6 +1787,18 @@ public class GBaseParserBaseListener implements GBaseParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAlterByRenameIndex(GBaseParser.AlterByRenameIndexContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAlterByAlterIndexVisibility(GBaseParser.AlterByAlterIndexVisibilityContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAlterByAlterIndexVisibility(GBaseParser.AlterByAlterIndexVisibilityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -5524,6 +5548,30 @@ public class GBaseParserBaseListener implements GBaseParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLongVarcharDataType(GBaseParser.LongVarcharDataTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLongVarcharDataType(GBaseParser.LongVarcharDataTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLongVarbinaryDataType(GBaseParser.LongVarbinaryDataTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLongVarbinaryDataType(GBaseParser.LongVarbinaryDataTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCollectionOptions(GBaseParser.CollectionOptionsContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -6136,6 +6184,18 @@ public class GBaseParserBaseListener implements GBaseParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterJsonMemberOfPredicate(GBaseParser.JsonMemberOfPredicateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitJsonMemberOfPredicate(GBaseParser.JsonMemberOfPredicateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterInPredicate(GBaseParser.InPredicateContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -6316,6 +6376,18 @@ public class GBaseParserBaseListener implements GBaseParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterJsonExpressionAtom(GBaseParser.JsonExpressionAtomContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitJsonExpressionAtom(GBaseParser.JsonExpressionAtomContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExistsExpessionAtom(GBaseParser.ExistsExpessionAtomContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -6455,6 +6527,18 @@ public class GBaseParserBaseListener implements GBaseParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMathOperator(GBaseParser.MathOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterJsonOperator(GBaseParser.JsonOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitJsonOperator(GBaseParser.JsonOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

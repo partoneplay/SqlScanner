@@ -13,8 +13,7 @@ public class BaseRule {
     private static Logger logger = LogManager.getLogger(BaseRule.class);
     private static final int INDENT = 1;
     private int indent = 0;
-
-    private String ruleId = "schema.000";
+    private String ruleId;
 
     public BaseRule () {
         String packageName = this.getClass().getPackage().getName();
@@ -31,7 +30,7 @@ public class BaseRule {
         String schema = ruleId.substring(0, ruleId.lastIndexOf('.'));
         RuleInfo ruleInfo = RuleInfoUtils.getRuleInfo(schema, ruleId);
         if (ruleInfo != null) {
-            logger.info(ruleInfo.toMarkdown());
+            logger.info(ruleInfo.toString());
         }
     }
 

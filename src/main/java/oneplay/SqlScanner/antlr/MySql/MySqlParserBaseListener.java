@@ -1,4 +1,4 @@
-// Generated from D:/IdeaProject/SqlScanner/grammers/MySql\MySqlParser.g4 by ANTLR 4.8
+// Generated from D:/IdeaProject/SqlScanner/src/main/java/oneplay/SqlScanner/antlr/MySql\MySqlParser.g4 by ANTLR 4.8
 package oneplay.SqlScanner.antlr.MySql;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -743,6 +743,18 @@ public class MySqlParserBaseListener implements MySqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSerialDefaultColumnConstraint(MySqlParser.SerialDefaultColumnConstraintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCheckColumnConstraint(MySqlParser.CheckColumnConstraintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCheckColumnConstraint(MySqlParser.CheckColumnConstraintContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1775,6 +1787,18 @@ public class MySqlParserBaseListener implements MySqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAlterByRenameIndex(MySqlParser.AlterByRenameIndexContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAlterByAlterIndexVisibility(MySqlParser.AlterByAlterIndexVisibilityContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAlterByAlterIndexVisibility(MySqlParser.AlterByAlterIndexVisibilityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -5524,6 +5548,30 @@ public class MySqlParserBaseListener implements MySqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLongVarcharDataType(MySqlParser.LongVarcharDataTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLongVarcharDataType(MySqlParser.LongVarcharDataTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLongVarbinaryDataType(MySqlParser.LongVarbinaryDataTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLongVarbinaryDataType(MySqlParser.LongVarbinaryDataTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCollectionOptions(MySqlParser.CollectionOptionsContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -6112,6 +6160,18 @@ public class MySqlParserBaseListener implements MySqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterJsonMemberOfPredicate(MySqlParser.JsonMemberOfPredicateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitJsonMemberOfPredicate(MySqlParser.JsonMemberOfPredicateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterInPredicate(MySqlParser.InPredicateContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -6292,6 +6352,18 @@ public class MySqlParserBaseListener implements MySqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterJsonExpressionAtom(MySqlParser.JsonExpressionAtomContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitJsonExpressionAtom(MySqlParser.JsonExpressionAtomContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExistsExpessionAtom(MySqlParser.ExistsExpessionAtomContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -6419,6 +6491,18 @@ public class MySqlParserBaseListener implements MySqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMathOperator(MySqlParser.MathOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterJsonOperator(MySqlParser.JsonOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitJsonOperator(MySqlParser.JsonOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -1,4 +1,4 @@
-// Generated from D:/IdeaProject/SqlScanner/grammers/MySql\MySqlParser.g4 by ANTLR 4.8
+// Generated from D:/IdeaProject/SqlScanner/src/main/java/oneplay/SqlScanner/antlr/MySql\MySqlParser.g4 by ANTLR 4.8
 package oneplay.SqlScanner.antlr.MySql;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -401,6 +401,13 @@ public interface MySqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSerialDefaultColumnConstraint(MySqlParser.SerialDefaultColumnConstraintContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code checkColumnConstraint}
+	 * labeled alternative in {@link MySqlParser#columnConstraint}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCheckColumnConstraint(MySqlParser.CheckColumnConstraintContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code primaryKeyTableConstraint}
 	 * labeled alternative in {@link MySqlParser#tableConstraint}.
@@ -986,6 +993,13 @@ public interface MySqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAlterByRenameIndex(MySqlParser.AlterByRenameIndexContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code alterByAlterIndexVisibility}
+	 * labeled alternative in {@link MySqlParser#alterSpecification}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlterByAlterIndexVisibility(MySqlParser.AlterByAlterIndexVisibilityContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code alterByDropIndex}
 	 * labeled alternative in {@link MySqlParser#alterSpecification}.
@@ -2988,6 +3002,20 @@ public interface MySqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSpatialDataType(MySqlParser.SpatialDataTypeContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code longVarcharDataType}
+	 * labeled alternative in {@link MySqlParser#dataType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLongVarcharDataType(MySqlParser.LongVarcharDataTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code longVarbinaryDataType}
+	 * labeled alternative in {@link MySqlParser#dataType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLongVarbinaryDataType(MySqlParser.LongVarbinaryDataTypeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link MySqlParser#collectionOptions}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -3306,6 +3334,13 @@ public interface MySqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpressionAtomPredicate(MySqlParser.ExpressionAtomPredicateContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code jsonMemberOfPredicate}
+	 * labeled alternative in {@link MySqlParser#predicate}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJsonMemberOfPredicate(MySqlParser.JsonMemberOfPredicateContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code inPredicate}
 	 * labeled alternative in {@link MySqlParser#predicate}.
 	 * @param ctx the parse tree
@@ -3411,6 +3446,13 @@ public interface MySqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIntervalExpressionAtom(MySqlParser.IntervalExpressionAtomContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code jsonExpressionAtom}
+	 * labeled alternative in {@link MySqlParser#expressionAtom}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJsonExpressionAtom(MySqlParser.JsonExpressionAtomContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code existsExpessionAtom}
 	 * labeled alternative in {@link MySqlParser#expressionAtom}.
 	 * @param ctx the parse tree
@@ -3482,6 +3524,12 @@ public interface MySqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMathOperator(MySqlParser.MathOperatorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MySqlParser#jsonOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJsonOperator(MySqlParser.JsonOperatorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MySqlParser#charsetNameBase}.
 	 * @param ctx the parse tree

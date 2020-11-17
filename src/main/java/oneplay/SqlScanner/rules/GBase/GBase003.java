@@ -2,8 +2,8 @@ package oneplay.SqlScanner.rules.GBase;
 
 import oneplay.SqlScanner.antlr.GBase.GBaseParser;
 import oneplay.SqlScanner.antlr.GBase.GBaseParserBaseListener;
-import oneplay.SqlScanner.rules.BaseRule;
 import oneplay.SqlScanner.antlr.NodeName;
+import oneplay.SqlScanner.rules.BaseRule;
 import oneplay.SqlScanner.rules.RuleResult;
 import oneplay.SqlScanner.utils.ParseTreeUtils;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -107,7 +107,7 @@ public class GBase003 extends BaseRule {
                 nodeName = sqlStructure.pop();
             }
             if (tableCount > 1 && ctx.whereExpr == null) { // 多表关联缺少where筛选条件
-                RuleResult ruleResult = new RuleResult(ctx.start, ctx.stop, "Missing 'where' condition");
+                RuleResult ruleResult = new RuleResult(ctx.start, ctx.stop, "多表关联缺少`where`条件/Missing `where`");
                 ruleResultList.add(ruleResult);
                 logger.debug(getIndentString(ruleResult.toString()));
             }
@@ -242,9 +242,9 @@ public class GBase003 extends BaseRule {
         }
 
         private void dealUnRelatePredicate(ParserRuleContext prc) {
-            RuleResult ruleResult = new RuleResult(prc.start, prc.stop, String.format("It's not 'join' condition [%s]", prc.getText()));
+            RuleResult ruleResult = new RuleResult(prc.start, prc.stop, String.format("关联语句中发现非关联条件/It's not 'join' condition [%s]", prc.getText()));
             ruleResultList.add(ruleResult);
-            logger.debug(getIndentString(ruleResult.toString()));
+            logger.debug(ruleResult.toString());
         }
     }
 

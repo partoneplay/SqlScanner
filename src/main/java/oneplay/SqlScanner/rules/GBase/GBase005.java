@@ -4,7 +4,6 @@ import oneplay.SqlScanner.antlr.GBase.GBaseParser;
 import oneplay.SqlScanner.antlr.GBase.GBaseParserBaseListener;
 import oneplay.SqlScanner.rules.BaseRule;
 import oneplay.SqlScanner.rules.RuleResult;
-import oneplay.SqlScanner.utils.ParseTreeUtils;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -26,7 +25,9 @@ public class GBase005 extends BaseRule {
     }
 
     /**
-     * 算法描述：INSERT INTO SELECT 结构中明确指定列名
+     * 算法描述：
+     * 1. INSERT INTO TABLE 结构中明确指定列名
+     * 2. SELECT FROM TABLE 结构中明确指定列名
      */
     private class Rule004Listener extends GBaseParserBaseListener {
         private List<RuleResult> ruleResultList = new ArrayList<>();
@@ -36,34 +37,21 @@ public class GBase005 extends BaseRule {
         }
 
         @Override
-        public void enterDmlStatement(GBaseParser.DmlStatementContext ctx) {
-            logger.debug(getIndentString("DmlStatement begin ..."));
-        }
-
-        @Override
-        public void exitDmlStatement(GBaseParser.DmlStatementContext ctx) {
-            logger.debug(getIndentString("DmlStatement end\n"));
-        }
-
-        @Override
         public void enterInsertStatement(GBaseParser.InsertStatementContext ctx) {
             if (ctx.columns == null) {
-                dealRuleResult(ctx.start, ctx.insertStatementValue().start, "Missing insert columns");
-            }
-            GBaseParser.SelectStatementContext selectStatementContext = ctx.insertStatementValue().selectStatement();
-            if (selectStatementContext != null) {
-                List<ParseTree> parseTreeList = ParseTreeUtils.getFirstNodeList(selectStatementContext, GBaseParser.SelectElementsContext.class);
-                for (ParseTree parseTree : parseTreeList) {
-                    GBaseParser.SelectElementsContext selectElementsContext = (GBaseParser.SelectElementsContext) parseTree;
-                    if (selectElementsContext.star != null) {
-                        dealRuleResult(selectElementsContext.start, selectElementsContext.stop, "Please don't use '*'");
-                    }
-                }
+                dealRuleResult(ctx.start, ctx.insertStatementValue().start, "`insert`语句未明确指定列名/Missing insert columns");
             }
         }
 
-        private void dealRuleResult(Token start, Token stop, String s) {
-            RuleResult ruleResult = new RuleResult(start, stop, s);
+        @Override
+        public void enterSelectElements(GBaseParser.SelectElementsContext ctx) {
+            if (ctx.star != null) {
+                dealRuleResult(ctx.start, ctx.stop, "`select`语句未明确指定列名/Missing select columns");
+            }
+        }
+
+        private void dealRuleResult(Token start, Token stop, String description) {
+            RuleResult ruleResult = new RuleResult(start, stop, description);
             ruleResultList.add(ruleResult);
             logger.debug(ruleResult.toString());
         }

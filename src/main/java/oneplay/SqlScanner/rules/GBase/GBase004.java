@@ -1,10 +1,9 @@
 package oneplay.SqlScanner.rules.GBase;
 
 import oneplay.SqlScanner.antlr.GBase.GBaseParser;
-import oneplay.SqlScanner.antlr.GBase.GBaseParserBaseListener;
 import oneplay.SqlScanner.rules.BaseRule;
-import oneplay.SqlScanner.antlr.NodeName;
 import oneplay.SqlScanner.rules.RuleResult;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.logging.log4j.LogManager;
@@ -12,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class GBase004 extends BaseRule {
     private static Logger logger = LogManager.getLogger(GBase004.class);
@@ -28,8 +26,8 @@ public class GBase004 extends BaseRule {
     /**
      * 算法描述：避免使用not in 运算
      */
-    private class Rule004Listener extends GBaseParserBaseListener {
-        private Stack<NodeName> sqlStructure = new Stack<>();
+    private class Rule004Listener extends ListenerWithFilterContext {
+
         private List<RuleResult> ruleResultList = new ArrayList<>();
 
         List<RuleResult> getRuleResultList() {
@@ -37,58 +35,48 @@ public class GBase004 extends BaseRule {
         }
 
         @Override
-        public void enterDmlStatement(GBaseParser.DmlStatementContext ctx) {
-            logger.debug(getIndentString("DmlStatement begin ..."));
-        }
-
-        @Override
-        public void exitDmlStatement(GBaseParser.DmlStatementContext ctx) {
-            logger.debug(getIndentString("DmlStatement end\n"));
-        }
-
-        @Override
-        public void enterQuerySpecification(GBaseParser.QuerySpecificationContext ctx) {
-            enterSelect();
-        }
-
-        @Override
-        public void exitQuerySpecification(GBaseParser.QuerySpecificationContext ctx) {
-            exitSelect();
-        }
-
-        @Override
-        public void enterQuerySpecificationNointo(GBaseParser.QuerySpecificationNointoContext ctx) {
-            enterSelect();
-        }
-
-        @Override
-        public void exitQuerySpecificationNointo(GBaseParser.QuerySpecificationNointoContext ctx) {
-            exitSelect();
-        }
-
-        private void enterSelect() {
-            logger.debug(getIndentString("QuerySpecification enter"));
-            sqlStructure.push(NodeName.querySpecification); // 递归分隔
-            indent();
-        }
-
-        private void exitSelect() {
-            if (sqlStructure.peek() == NodeName.querySpecification) {
-                sqlStructure.pop();
-            }
-            unindent();
-            logger.debug(getIndentString("QuerySpecification exit"));
-        }
-
-        @Override
         public void enterInPredicate(GBaseParser.InPredicateContext ctx) {
             if (ctx.NOT() != null && ctx.selectStatement() != null) {
-                RuleResult ruleResult = new RuleResult(ctx.start, ctx.stop, "'not in (subquery)' isn't allowed here");
-                ruleResultList.add(ruleResult);
-                logger.debug(getIndentString(ruleResult.toString()));
+                dealRuleResult(ctx.start, ctx.stop, "严禁`NOT IN`和子查询结合使用/'not in (subquery)' is not allowed");
             }
         }
 
+        @Override
+        public void enterBetweenPredicate(GBaseParser.BetweenPredicateContext ctx) {
+            if (ctx.NOT() != null) {
+                dealRuleResult(ctx.start, ctx.stop, "反向过滤条件/Reverse filter");
+            }
+        }
+
+        @Override
+        public void enterLikePredicate(GBaseParser.LikePredicateContext ctx) {
+            if (ctx.NOT() != null) {
+                dealRuleResult(ctx.start, ctx.stop, "反向过滤条件/Reverse filter");
+            }
+        }
+
+        @Override
+        public void enterRegexpPredicate(GBaseParser.RegexpPredicateContext ctx) {
+            if (ctx.NOT() != null) {
+                dealRuleResult(ctx.start, ctx.stop, "反向过滤条件/Reverse filter");
+            }
+        }
+
+        @Override
+        public void enterBinaryComparasionPredicate(GBaseParser.BinaryComparasionPredicateContext ctx) {
+            String text = ctx.comparisonOperator().getText();
+            if ("!=".equals(text) || "<>".equals(text)) {
+                dealRuleResult(ctx.start, ctx.stop, "反向过滤条件/Reverse filter");
+            }
+        }
+
+        private void dealRuleResult(Token start, Token stop, String description) {
+            if (isFilterContext()) {
+                RuleResult ruleResult = new RuleResult(start, stop, description);
+                ruleResultList.add(ruleResult);
+                logger.debug(ruleResult.toString());
+            }
+        }
     }
 
 }

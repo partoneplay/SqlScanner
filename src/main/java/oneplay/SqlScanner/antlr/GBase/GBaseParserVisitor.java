@@ -402,6 +402,13 @@ public interface GBaseParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSerialDefaultColumnConstraint(GBaseParser.SerialDefaultColumnConstraintContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code checkColumnConstraint}
+	 * labeled alternative in {@link GBaseParser#columnConstraint}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCheckColumnConstraint(GBaseParser.CheckColumnConstraintContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code primaryKeyTableConstraint}
 	 * labeled alternative in {@link GBaseParser#tableConstraint}.
 	 * @param ctx the parse tree
@@ -986,6 +993,13 @@ public interface GBaseParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAlterByRenameIndex(GBaseParser.AlterByRenameIndexContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code alterByAlterIndexVisibility}
+	 * labeled alternative in {@link GBaseParser#alterSpecification}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlterByAlterIndexVisibility(GBaseParser.AlterByAlterIndexVisibilityContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code alterByDropIndex}
 	 * labeled alternative in {@link GBaseParser#alterSpecification}.
@@ -2988,6 +3002,20 @@ public interface GBaseParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSpatialDataType(GBaseParser.SpatialDataTypeContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code longVarcharDataType}
+	 * labeled alternative in {@link GBaseParser#dataType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLongVarcharDataType(GBaseParser.LongVarcharDataTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code longVarbinaryDataType}
+	 * labeled alternative in {@link GBaseParser#dataType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLongVarbinaryDataType(GBaseParser.LongVarbinaryDataTypeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link GBaseParser#collectionOptions}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -3319,6 +3347,13 @@ public interface GBaseParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpressionAtomPredicate(GBaseParser.ExpressionAtomPredicateContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code jsonMemberOfPredicate}
+	 * labeled alternative in {@link GBaseParser#predicate}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJsonMemberOfPredicate(GBaseParser.JsonMemberOfPredicateContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code inPredicate}
 	 * labeled alternative in {@link GBaseParser#predicate}.
 	 * @param ctx the parse tree
@@ -3424,6 +3459,13 @@ public interface GBaseParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIntervalExpressionAtom(GBaseParser.IntervalExpressionAtomContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code jsonExpressionAtom}
+	 * labeled alternative in {@link GBaseParser#expressionAtom}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJsonExpressionAtom(GBaseParser.JsonExpressionAtomContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code existsExpessionAtom}
 	 * labeled alternative in {@link GBaseParser#expressionAtom}.
 	 * @param ctx the parse tree
@@ -3502,6 +3544,12 @@ public interface GBaseParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMathOperator(GBaseParser.MathOperatorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link GBaseParser#jsonOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJsonOperator(GBaseParser.JsonOperatorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GBaseParser#stringOperator}.
 	 * @param ctx the parse tree

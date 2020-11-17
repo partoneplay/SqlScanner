@@ -1,4 +1,4 @@
-// Generated from D:/IdeaProject/SqlScanner/grammers/MySql\MySqlParser.g4 by ANTLR 4.8
+// Generated from D:/IdeaProject/SqlScanner/src/main/java/oneplay/SqlScanner/antlr/MySql\MySqlParser.g4 by ANTLR 4.8
 package oneplay.SqlScanner.antlr.MySql;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -667,6 +667,18 @@ public interface MySqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSerialDefaultColumnConstraint(MySqlParser.SerialDefaultColumnConstraintContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code checkColumnConstraint}
+	 * labeled alternative in {@link MySqlParser#columnConstraint}.
+	 * @param ctx the parse tree
+	 */
+	void enterCheckColumnConstraint(MySqlParser.CheckColumnConstraintContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code checkColumnConstraint}
+	 * labeled alternative in {@link MySqlParser#columnConstraint}.
+	 * @param ctx the parse tree
+	 */
+	void exitCheckColumnConstraint(MySqlParser.CheckColumnConstraintContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code primaryKeyTableConstraint}
 	 * labeled alternative in {@link MySqlParser#tableConstraint}.
@@ -1665,6 +1677,18 @@ public interface MySqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAlterByRenameIndex(MySqlParser.AlterByRenameIndexContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code alterByAlterIndexVisibility}
+	 * labeled alternative in {@link MySqlParser#alterSpecification}.
+	 * @param ctx the parse tree
+	 */
+	void enterAlterByAlterIndexVisibility(MySqlParser.AlterByAlterIndexVisibilityContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code alterByAlterIndexVisibility}
+	 * labeled alternative in {@link MySqlParser#alterSpecification}.
+	 * @param ctx the parse tree
+	 */
+	void exitAlterByAlterIndexVisibility(MySqlParser.AlterByAlterIndexVisibilityContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code alterByDropIndex}
 	 * labeled alternative in {@link MySqlParser#alterSpecification}.
@@ -5044,6 +5068,30 @@ public interface MySqlParserListener extends ParseTreeListener {
 	 */
 	void exitSpatialDataType(MySqlParser.SpatialDataTypeContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code longVarcharDataType}
+	 * labeled alternative in {@link MySqlParser#dataType}.
+	 * @param ctx the parse tree
+	 */
+	void enterLongVarcharDataType(MySqlParser.LongVarcharDataTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code longVarcharDataType}
+	 * labeled alternative in {@link MySqlParser#dataType}.
+	 * @param ctx the parse tree
+	 */
+	void exitLongVarcharDataType(MySqlParser.LongVarcharDataTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code longVarbinaryDataType}
+	 * labeled alternative in {@link MySqlParser#dataType}.
+	 * @param ctx the parse tree
+	 */
+	void enterLongVarbinaryDataType(MySqlParser.LongVarbinaryDataTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code longVarbinaryDataType}
+	 * labeled alternative in {@link MySqlParser#dataType}.
+	 * @param ctx the parse tree
+	 */
+	void exitLongVarbinaryDataType(MySqlParser.LongVarbinaryDataTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MySqlParser#collectionOptions}.
 	 * @param ctx the parse tree
 	 */
@@ -5582,6 +5630,18 @@ public interface MySqlParserListener extends ParseTreeListener {
 	 */
 	void exitExpressionAtomPredicate(MySqlParser.ExpressionAtomPredicateContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code jsonMemberOfPredicate}
+	 * labeled alternative in {@link MySqlParser#predicate}.
+	 * @param ctx the parse tree
+	 */
+	void enterJsonMemberOfPredicate(MySqlParser.JsonMemberOfPredicateContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code jsonMemberOfPredicate}
+	 * labeled alternative in {@link MySqlParser#predicate}.
+	 * @param ctx the parse tree
+	 */
+	void exitJsonMemberOfPredicate(MySqlParser.JsonMemberOfPredicateContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code inPredicate}
 	 * labeled alternative in {@link MySqlParser#predicate}.
 	 * @param ctx the parse tree
@@ -5762,6 +5822,18 @@ public interface MySqlParserListener extends ParseTreeListener {
 	 */
 	void exitIntervalExpressionAtom(MySqlParser.IntervalExpressionAtomContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code jsonExpressionAtom}
+	 * labeled alternative in {@link MySqlParser#expressionAtom}.
+	 * @param ctx the parse tree
+	 */
+	void enterJsonExpressionAtom(MySqlParser.JsonExpressionAtomContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code jsonExpressionAtom}
+	 * labeled alternative in {@link MySqlParser#expressionAtom}.
+	 * @param ctx the parse tree
+	 */
+	void exitJsonExpressionAtom(MySqlParser.JsonExpressionAtomContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code existsExpessionAtom}
 	 * labeled alternative in {@link MySqlParser#expressionAtom}.
 	 * @param ctx the parse tree
@@ -5883,6 +5955,16 @@ public interface MySqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMathOperator(MySqlParser.MathOperatorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MySqlParser#jsonOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterJsonOperator(MySqlParser.JsonOperatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MySqlParser#jsonOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitJsonOperator(MySqlParser.JsonOperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MySqlParser#charsetNameBase}.
 	 * @param ctx the parse tree

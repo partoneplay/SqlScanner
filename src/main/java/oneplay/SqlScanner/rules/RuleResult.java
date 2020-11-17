@@ -7,27 +7,15 @@ public class RuleResult {
     private int y1;
     private int x2;
     private int y2;
-    private String s;
+    private String description; // 描述说明
+    private String absolutePath; // 文件绝对路径
 
-    public RuleResult (int x1, int y1, int x2, int y2) {
-        this.x1 = x1;
-        this.y1 = y1;
-        this.x2 = x2;
-        this.y2 = y2;
-    }
-
-    public RuleResult (int x1, int y1, int x2, int y2, String s) {
-        this(x1, y1, x2, y2);
-        this.s = s;
-    }
-
-    public RuleResult (Token start, Token stop) {
-        this(start.getLine(), start.getCharPositionInLine(), stop.getLine(), stop.getCharPositionInLine());
-    }
-
-    public RuleResult (Token start, Token stop, String s) {
-        this(start, stop);
-        this.s = s;
+    public RuleResult(Token start, Token stop, String description) {
+        this.x1 = start.getLine();
+        this.y1 = start.getCharPositionInLine();
+        this.x2 = stop.getLine();
+        this.y2 = stop.getCharPositionInLine();
+        this.description = String.format("From [%3d,%3d] to [%3d,%3d] %s", x1, y1, x2, y2, description == null ? "" : description);
     }
 
     public int getX1() {
@@ -46,16 +34,21 @@ public class RuleResult {
         return y2;
     }
 
-    public String getS() {
-        return s == null ? "" : s;
+    public String getDescription() {
+        return description;
+    }
+
+    public String getAbsolutePath() {
+        return absolutePath;
+    }
+
+    public void setAbsolutePath(String filename) {
+        this.absolutePath = filename;
     }
 
     @Override
     public String toString() {
-        String str = String.format("From [%3d,%3d] to [%3d,%3d]", x1, y1, x2, y2);
-        if (s != null) {
-            str += " " + s;
-        }
-        return str;
+        return description;
     }
+
 }
